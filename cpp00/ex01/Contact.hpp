@@ -1,13 +1,14 @@
 #ifndef CONTACT_HPP
 #define CONTACT_HPP
 
-class Contact {
+class Contact
+{
 public:
-	Contact();
-	void myFunction();
+	Contact(char *name, char *num);
 
 private:
-	int myVariable;
+	char *name;
+	char *num;
 };
 
 #endif

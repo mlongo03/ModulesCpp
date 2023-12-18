@@ -3,7 +3,8 @@
 
 #include "main.h"
 
-class PhoneBook {
+class PhoneBook
+{
 public:
 	PhoneBook();
 	void ADD(Contact contact);

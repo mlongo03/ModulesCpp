@@ -1,9 +1,7 @@
 #include "main.h"
 
-Contact::Contact() {
-    myVariable = 0;
+Contact::Contact(char *name, char *num)
+{
+    name = name;
+    num = num;
 }
-
-void Contact::myFunction() {
-}
-
