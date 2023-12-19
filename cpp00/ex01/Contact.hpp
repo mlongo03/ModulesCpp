@@ -4,11 +4,20 @@
 class Contact
 {
 public:
-	Contact(char *name, char *num);
+	Contact();
+	Contact(std::string firstName, std::string lastName, std::string nickname, std::string phoneNumber, std::string darkestSecret);
+	std::string getFirstName();
+	std::string getLastName();
+	std::string getNickname();
+	std::string getPhoneNumber();
+	std::string getDarkestSecret();
 
 private:
-	char *name;
-	char *num;
+	std::string firstName;
+	std::string lastName;
+	std::string nickname;
+	std::string phoneNumber;
+	std::string darkestSecret;
 };
 
 #endif

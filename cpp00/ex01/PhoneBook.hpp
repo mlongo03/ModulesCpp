@@ -1,18 +1,21 @@
 #ifndef PHONEBOOK_HPP
 #define PHONEBOOK_HPP
 
-#include "main.h"
+#include "Contact.hpp"
 
 class PhoneBook
 {
 public:
-	PhoneBook();
-	void ADD(Contact contact);
-	Contact SEARCH(Contact contact);
-	void EXIT();
+	PhoneBook(void);
+	void ADD();
+	void SEARCH();
+	void printColumns();
+	void printColumn(std::string str);
 
 private:
-	Contact *contacts;
+	Contact contacts[8];
+	int savedContacts;
+	int oldest;
 };
 
 #endif
