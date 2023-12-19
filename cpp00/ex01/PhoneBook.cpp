@@ -61,14 +61,14 @@ void PhoneBook::SEARCH()
 	printColumns();
 	std::cout << "Enter the index of the contact you want to display: ";
 	std::getline(std::cin, input);
-	if (input.length() > 1 || input[0] - 49 > savedContacts || input[0] - 49 < 0)
+	if (input.length() > 1 || input[0] - 48 > savedContacts || input[0] - 48 < 0)
 	{
 		std::cout << "❌ Invalid index. Contact not found ❌" << std::endl;
 		return ;
 	}
 	else
 	{
-		int index = input[0] - 49;
+		int index = input[0] - 48;
 		std::cout << "Contact Information:" << std::endl;
 		std::cout << "First Name: " << contacts[index].getFirstName() << std::endl;
 		std::cout << "Last Name: " << contacts[index].getLastName() << std::endl;
