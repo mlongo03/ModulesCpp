@@ -17,10 +17,7 @@ int main(int argc, char **argv)
 				argv[i + 1][j] = std::toupper(argv[i + 1][j]);
 				j++;
 			}
-			if (i == argc - 2)
-				std::cout << argv[i + 1];
-			else
-				std::cout << argv[i + 1] << " ";
+			std::cout << argv[i + 1];
 		}
 	}
 	std::cout << std::endl;

@@ -1,4 +1,4 @@
-NAME = phonebook
+NAME = ZombieHorde
 
 SRC = $(wildcard *.cpp)
 

@@ -63,7 +63,7 @@ void PhoneBook::SEARCH()
 	printColumns();
 	std::cout << "Enter the index of the contact you want to display: ";
 	std::getline(std::cin, input);
-	if (input.length() > 1 || input[0] - 48 > savedContacts || input[0] - 48 < 0)
+	if (input.length() > 1 || input[0] - 48 >= savedContacts || input[0] - 48 < 0)
 	{
 		std::cout << "❌ Invalid index. Contact not found ❌" << std::endl;
 		return ;
@@ -95,6 +95,7 @@ void PhoneBook::printColumns()
 		printColumn(this->contacts[i].getLastName());
 		std::cout << "|";
 		printColumn(this->contacts[i].getNickname());
+		std::cout << "|";
 		std::cout << std::endl;
 	}
 }
@@ -102,7 +103,7 @@ void PhoneBook::printColumns()
 void PhoneBook::printColumn(std::string str)
 {
 	if (str.size() > 10)
-		std::cout << std::setw(9) << str << ".";
+		std::cout << str.substr(0, 9) << ".";
 	else
 		std::cout << std::setw(10) << str;
 }
