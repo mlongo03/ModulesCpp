@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook(void)
@@ -83,7 +85,10 @@ void PhoneBook::printColumns()
 {
 	for (int i = 0; i < this->savedContacts; i++)
 	{
-		std::cout << i;
+		std::stringstream ss;
+		ss << i;
+		std::string strNumber = ss.str();
+		printColumn(strNumber);
 		std::cout << "|";
 		printColumn(this->contacts[i].getFirstName());
 		std::cout << "|";
@@ -96,11 +101,8 @@ void PhoneBook::printColumns()
 
 void PhoneBook::printColumn(std::string str)
 {
-	for (int j = 0; str[j] && j < 10; j++)
-	{
-		if (j == 9 && str[j + 1])
-			std::cout << ".";
-		else
-			std::cout << str[j];
-	}
+	if (str.size() > 10)
+		std::cout << std::setw(9) << str << ".";
+	else
+		std::cout << std::setw(10) << str;
 }
