@@ -3,12 +3,14 @@
 #include <string>
 #include "Harl.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
+	if (argc != 2)
+	{
+		std::cout << "invalid arguments" << std::endl;
+		return (1);
+	}
+	std::string input = argv[1];
 	Harl harl = Harl();
-	harl.complain("DEBUG");
-	harl.complain("INFO");
-	harl.complain("WARNING");
-	harl.complain("ERROR");
-	harl.complain("BO");
+	harl.complain(input);
 }

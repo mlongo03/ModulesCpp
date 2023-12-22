@@ -2,11 +2,18 @@
 #include <fstream>
 #include <string>
 
+void	myReplace(std::string& line, int found, std::string toFind, std::string replace, int& startToFind)
+{
+	line.insert(found + toFind.size(), replace);
+	line.erase(found, toFind.size());
+	startToFind = found + replace.size();
+}
+
 int main(int argc, char **argv)
 {
 	if (argc != 4)
 	{
-		std::cout << "Not enough arguments" << std::endl;
+		std::cout << "invalid arguments" << std::endl;
 		return (1);
 	}
 
@@ -28,11 +35,7 @@ int main(int argc, char **argv)
 			{
 				startToFind = 0;
 				while ((found = line.find(toFind, startToFind)) != std::string::npos)
-				{
-					line.insert(found + toFind.size(), replace);
-					line.erase(found, toFind.size());
-					startToFind = found + replace.size();
-				}
+					myReplace(line, found, toFind, replace, startToFind);
 				outFile << line << std::endl;
 			}
 			outFile.close();
