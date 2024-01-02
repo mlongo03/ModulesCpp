@@ -5,15 +5,15 @@
 ClapTrap::ClapTrap(std::string name)
 {
 	this->name = name;
-	setHitPoints(10);
-	setEnergyPoints(10);
-	setAttackDamage(0);
-	std::cout << "Constructor of " << this->name << " called" << std::endl;
+	setHitPoints(100);
+	setEnergyPoints(50);
+	setAttackDamage(20);
+	std::cout << "ClapTrap constructor of " << this->name << " called" << std::endl;
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "Destructor of " << this->name << " called" << std::endl;
+	std::cout << "ClapTrap destructor of " << this->name << " called" << std::endl;
 }
 
 std::string		ClapTrap::getName( void )
