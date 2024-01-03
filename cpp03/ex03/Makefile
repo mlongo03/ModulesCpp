@@ -1,4 +1,4 @@
-NAME = fragTrap
+NAME = DiamondTrap
 
 SRC = $(wildcard *.cpp)
 

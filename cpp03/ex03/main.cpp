@@ -1,9 +1,9 @@
-#include "ClapTrap.hpp"
+#include <iostream>
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
-#include <iostream>
+#include "DiamondTrap.hpp"
 
-int main( void )
+int	main(void)
 {
 	ClapTrap	alberto("alberto"), mario("mario");
 
@@ -26,5 +26,9 @@ int main( void )
 		carlone.attack(maurizio.getName());
 		maurizio.takeDamage(carlone.getAttackDamage());
 	}
+	DiamondTrap	alfredo("Alfredo");
+	alfredo.whoAmI();
+	alfredo.attack(carlone.getName());
+	carlone.takeDamage(alfredo.getAttackDamage());
 	return (0);
 }
