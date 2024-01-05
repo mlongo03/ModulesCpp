@@ -3,23 +3,23 @@
 #include <string>
 
 
-Ice::Ice(std::string const & type) : AMateria(type)
-{
-	;
-}
-
-Ice::~Ice()
+Ice::Ice() : AMateria("ice")
 {
 	std::cout << "Ice constructor called" << std::endl;
 }
 
+Ice::~Ice()
+{
+	std::cout << "Ice destructor called" << std::endl;
+}
+
 AMateria* Ice::clone() const
 {
-	Ice *tmp = new Ice(type);
+	Ice *tmp = new Ice();
 	return (tmp);
 }
 
 void Ice::use(ICharacter& target)
 {
-	std::cout << "* heals " << target.getName() << "’s wounds *" << std::endl;
+	std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }

@@ -4,11 +4,18 @@
 Character::Character(std::string name) : name(name)
 {
 	std::cout << "Character constructor called" << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->materias[i] = 0;
 }
 
 Character::~Character()
 {
 	std::cout << "Character destructor called" << std::endl;
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->materias[i] != 0)
+			delete this->materias[i];
+	}
 }
 
 Character::Character(Character &toCopy)
@@ -24,6 +31,7 @@ Character& Character::operator=(Character &toCopy)
 			delete this->materias[i];
 		this->materias[i] = toCopy.getMaterias()[i];
 	}
+	return (*this);
 }
 
 std::string const & Character::getName() const
@@ -39,16 +47,20 @@ AMateria** Character::getMaterias()
 void Character::equip(AMateria* m)
 {
 	int i = 0;
+	if (m == 0)
+	{
+		std::cout << "NULL isn't a valid materia" << std::endl;
+		return ;
+	}
 	for (; i < 4; i++)
 	{
 		if (this->materias[i] == 0)
 		{
 			this->materias[i] = m;
-			break;
+			return ;
 		}
 	}
-	if (i == 4)
-		std::cout << "the inventary is full" << std::endl;
+	std::cout << "the inventary is full" << std::endl;
 }
 
 void Character::unequip(int idx)
@@ -62,7 +74,7 @@ void Character::unequip(int idx)
 		std::cout << "the slot is not initialized" << std::endl;
 }
 
-void Character::use(int idx, Character& target)
+void Character::use(int idx, ICharacter& target)
 {
 	if (this->materias[idx] != 0)
 		this->materias[idx]->use(target);

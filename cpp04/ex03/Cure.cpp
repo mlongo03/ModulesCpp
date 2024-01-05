@@ -3,23 +3,23 @@
 #include <string>
 
 
-Cure::Cure(std::string const & type) : AMateria(type)
-{
-	;
-}
-
-Cure::~Cure()
+Cure::Cure() : AMateria("cure")
 {
 	std::cout << "Cure constructor called" << std::endl;
 }
 
+Cure::~Cure()
+{
+	std::cout << "Cure destructor called" << std::endl;
+}
+
 AMateria* Cure::clone() const
 {
-	Cure *tmp = new Cure(type);
+	Cure *tmp = new Cure();
 	return (tmp);
 }
 
 void Cure::use(ICharacter& target)
 {
-	std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+	std::cout << "* heals " << target.getName() << "’s wounds *" << std::endl;
 }
