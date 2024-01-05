@@ -14,6 +14,19 @@ WrongCat::~WrongCat()
 	std::cout << "WrongCat destructor called" << std::endl;
 }
 
+WrongCat::WrongCat(const WrongCat &toCopy) : WrongAnimal()
+{
+	*this = toCopy;
+}
+
+WrongCat& WrongCat::operator=(const WrongCat &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	this->setType(toCopy.getType());
+	return (*this);
+}
+
 void	WrongCat::makeSound() const
 {
 	std::cout << "mouuu mouu" << std::endl;
