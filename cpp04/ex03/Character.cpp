@@ -10,12 +10,12 @@ Character::Character(std::string name) : name(name)
 
 Character::~Character()
 {
-	std::cout << "Character destructor called" << std::endl;
 	for (int i = 0; i < 4; i++)
 	{
 		if (this->materias[i] != 0)
 			delete this->materias[i];
 	}
+	std::cout << "Character destructor called" << std::endl;
 }
 
 Character::Character(Character &toCopy)

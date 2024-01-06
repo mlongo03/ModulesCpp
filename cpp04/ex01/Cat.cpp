@@ -12,8 +12,8 @@ Cat::Cat() : Animal()
 
 Cat::~Cat()
 {
-	std::cout << "Cat destructor called" << std::endl;
 	delete this->brain;
+	std::cout << "Cat destructor called" << std::endl;
 }
 
 Cat::Cat(const Cat &toCopy) : Animal()
