@@ -8,6 +8,18 @@ Cure::Cure() : AMateria("cure")
 	std::cout << "Cure constructor called" << std::endl;
 }
 
+Cure::Cure(const Cure &toCopy) : AMateria("cure")
+{
+	*this = toCopy;
+}
+
+Cure& Cure::operator=(const Cure &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	return (*this);
+}
+
 Cure::~Cure()
 {
 	std::cout << "Cure destructor called" << std::endl;
@@ -15,7 +27,7 @@ Cure::~Cure()
 
 AMateria* Cure::clone() const
 {
-	Cure *tmp = new Cure();
+	AMateria *tmp = new Cure();
 	return (tmp);
 }
 

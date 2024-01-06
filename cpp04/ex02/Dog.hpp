@@ -13,6 +13,8 @@ private:
 public:
 	Dog( void );
 	~Dog();
+	Dog(const Dog &toCopy);
+	Dog& operator=(const Dog &toCopy);
 	void	makeSound() const;
 };
 

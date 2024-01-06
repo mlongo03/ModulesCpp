@@ -16,6 +16,19 @@ Cat::~Cat()
 	delete this->brain;
 }
 
+Cat::Cat(const Cat &toCopy) : Animal()
+{
+	*this = toCopy;
+}
+
+Cat& Cat::operator=(const Cat &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	this->setType(toCopy.getType());
+	return (*this);
+}
+
 void	Cat::makeSound() const
 {
 	std::cout << "miao miao" << std::endl;

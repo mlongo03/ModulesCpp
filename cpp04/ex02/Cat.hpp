@@ -13,6 +13,8 @@ private:
 public:
 	Cat( void );
 	~Cat();
+	Cat(const Cat &toCopy);
+	Cat& operator=(const Cat &toCopy);
 	void	makeSound() const;
 };
 

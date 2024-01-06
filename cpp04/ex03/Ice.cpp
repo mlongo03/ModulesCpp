@@ -8,6 +8,18 @@ Ice::Ice() : AMateria("ice")
 	std::cout << "Ice constructor called" << std::endl;
 }
 
+Ice::Ice(const Ice &toCopy) : AMateria("ice")
+{
+	*this = toCopy;
+}
+
+Ice& Ice::operator=(const Ice &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	return (*this);
+}
+
 Ice::~Ice()
 {
 	std::cout << "Ice destructor called" << std::endl;

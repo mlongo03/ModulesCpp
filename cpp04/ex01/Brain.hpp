@@ -2,7 +2,7 @@
 #define Brain_HPP
 
 #include <string>
-#include "Animal.hpp"
+#include "Brain.hpp"
 
 class Brain
 {
@@ -11,6 +11,10 @@ private:
 public:
 	Brain( void );
 	~Brain();
+	Brain(const Brain &toCopy);
+	Brain& operator=(const Brain &toCopy);
+	void	setIdea(int idx, std::string idea);
+	std::string getIdea(int idx) const;
 };
 
 #endif

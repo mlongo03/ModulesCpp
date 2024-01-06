@@ -9,6 +9,24 @@ MateriaSource::MateriaSource()
 		this->materias[i] = 0;
 }
 
+MateriaSource::MateriaSource(const MateriaSource &toCopy)
+{
+	*this = toCopy;
+}
+
+MateriaSource& MateriaSource::operator=(const MateriaSource &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->materias[i] != 0)
+			delete this->materias[i];
+		this->materias[i] = getMateria(i)->clone();
+	}
+	return (*this);
+}
+
 MateriaSource::~MateriaSource()
 {
 	std::cout << "MateriaSource destructor called" << std::endl;
@@ -17,6 +35,11 @@ MateriaSource::~MateriaSource()
 		if (this->materias[i] != 0)
 			delete this->materias[i];
 	}
+}
+
+AMateria* MateriaSource::getMateria(int idx)
+{
+	return this->materias[idx];
 }
 
 void	MateriaSource::learnMateria(AMateria* m)

@@ -8,6 +8,19 @@ Animal::Animal()
 	std::cout << "Animal constructor called" << std::endl;
 }
 
+Animal::Animal(const Animal &toCopy)
+{
+	*this = toCopy;
+}
+
+Animal& Animal::operator=(const Animal &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	this->setType(toCopy.getType());
+	return (*this);
+}
+
 Animal::~Animal()
 {
 	std::cout << "Animal destructor called" << std::endl;

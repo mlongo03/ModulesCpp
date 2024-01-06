@@ -9,6 +9,9 @@ private:
 public:
 	MateriaSource();
 	~MateriaSource();
+	MateriaSource(const MateriaSource &toCopy);
+	MateriaSource& operator=(const MateriaSource &toCopy);
+	AMateria* getMateria(int idx);
 	void learnMateria(AMateria* m);
 	AMateria* createMateria(std::string const & type);
 };

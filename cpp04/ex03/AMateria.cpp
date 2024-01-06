@@ -8,6 +8,19 @@ AMateria::AMateria(std::string const & type)
 	std::cout << "AMateria constructor called" << std::endl;
 }
 
+AMateria::AMateria(const AMateria &toCopy)
+{
+	*this = toCopy;
+}
+
+AMateria& AMateria::operator=(const AMateria &toCopy)
+{
+	if (this == &toCopy)
+		return (*this);
+	this->type = toCopy.getType();
+	return (*this);
+}
+
 AMateria::~AMateria()
 {
 	std::cout << "AMateria destructor called" << std::endl;

@@ -9,6 +9,8 @@ protected:
 public:
 	WrongAnimal( void );
 	virtual ~WrongAnimal();
+	WrongAnimal(const WrongAnimal &toCopy);
+	WrongAnimal& operator=(const WrongAnimal &toCopy);
 	std::string		getType( void ) const;
 	void			setType( std::string type );
 	virtual void	makeSound() const;
