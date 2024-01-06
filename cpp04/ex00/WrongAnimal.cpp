@@ -15,7 +15,7 @@ WrongAnimal::~WrongAnimal()
 
 void	WrongAnimal::makeSound() const
 {
-	return ;
+	std::cout << "this sound is wrong!" << std::endl;
 }
 
 WrongAnimal::WrongAnimal(const WrongAnimal &toCopy)

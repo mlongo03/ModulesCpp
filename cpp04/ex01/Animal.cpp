@@ -4,8 +4,8 @@
 
 Animal::Animal()
 {
-	this->type = "Animal";
 	std::cout << "Animal constructor called" << std::endl;
+	this->type = "Animal";
 }
 
 Animal::~Animal()

@@ -29,12 +29,12 @@ MateriaSource& MateriaSource::operator=(const MateriaSource &toCopy)
 
 MateriaSource::~MateriaSource()
 {
+	std::cout << "MateriaSource destructor called" << std::endl;
 	for (int i = 0; i < 4; i++)
 	{
 		if (this->materias[i] != 0)
 			delete this->materias[i];
 	}
-	std::cout << "MateriaSource destructor called" << std::endl;
 }
 
 AMateria* MateriaSource::getMateria(int idx)
