@@ -35,25 +35,34 @@ Fixed&	Fixed::operator=(const Fixed &toCopy)
 
 Fixed	Fixed::operator*(const Fixed &obj)
 {
-	Fixed tmp = Fixed(this->toFloat() * obj.toFloat());
+	Fixed tmp;
+	tmp.setRawBits((int) (((long) this->getRawBits() * (long) obj.getRawBits()) >> this->fractBits));
 	return (tmp);
 }
 
 Fixed	Fixed::operator-(const Fixed &obj)
 {
-	Fixed tmp = Fixed(this->toFloat() - obj.toFloat());
+	Fixed tmp;
+	tmp.setRawBits(this->getRawBits() - obj.getRawBits());
 	return (tmp);
 }
 
 Fixed	Fixed::operator+(const Fixed &obj)
 {
-	Fixed tmp = Fixed(this->toFloat() + obj.toFloat());
+	Fixed tmp;
+	tmp.setRawBits(this->getRawBits() + obj.getRawBits());
 	return (tmp);
 }
 
 Fixed	Fixed::operator/(const Fixed &obj)
 {
-	Fixed tmp = Fixed(this->toFloat() / obj.toFloat());
+	Fixed tmp;
+	if (obj.getRawBits() == 0)
+	{
+		std::cout << "Invalid operation" << std::endl;
+		exit(1);
+	}
+	tmp.setRawBits((int) ((long) this->getRawBits() << this->fractBits) / (long) obj.getRawBits());
 	return (tmp);
 }
 
