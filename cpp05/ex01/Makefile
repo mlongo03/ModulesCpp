@@ -18,10 +18,10 @@ DEFAULT = \033[0m
 all: $(NAME)
 
 %.o : %.cpp
-	@(g++ $(FLAGS) -c $< -o $@)
+	@(c++ $(FLAGS) -c $< -o $@)
 
 $(NAME): $(OBJS)
-	@(g++ $(FLAGS) $(OBJS) -o $(NAME))
+	@(c++ $(FLAGS) $(OBJS) -o $(NAME))
 	@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
 
 clean:
