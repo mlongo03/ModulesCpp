@@ -7,7 +7,9 @@
 class ScalarConverter
 {
 	private:
-
+		static bool	intOver;
+		static bool	floatOver;
+		static bool	doubleOver;
 	public:
 		ScalarConverter();
 		~ScalarConverter();
