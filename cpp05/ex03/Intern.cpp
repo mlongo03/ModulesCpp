@@ -18,6 +18,8 @@ Intern::Intern(const Intern &toCopy)
 
 Intern& Intern::operator=(const Intern &toCopy)
 {
+	if (this == &toCopy)
+		return *this;
 	return (*this);
 }
 
@@ -34,7 +36,7 @@ AForm*	Intern::makeForm(std::string formName, std::string target)
 {
 	AForm* result = 0;
 	formName = toLowerCase(formName);
-	if (formName != "shubbery creation" && formName != "robotomy request" && formName != "presidential pardon")
+	if (formName != "shrubbery creation" && formName != "robotomy request" && formName != "presidential pardon")
 	{
 		std::cout << "this form does not exist" << std::endl;
 		return result;
@@ -42,19 +44,21 @@ AForm*	Intern::makeForm(std::string formName, std::string target)
 	switch (formName[0])
 	{
 	case 's':
-		return new ShrubberyCreationForm(target);
+		result = new ShrubberyCreationForm(target);
 		break;
 
 	case 'r':
-		return new RobotomyRequestForm(target);
+		result = new RobotomyRequestForm(target);
 		break;
 
 	case 'p':
-		return new PresidentialPardonForm(target);
+		result = new PresidentialPardonForm(target);
 		break;
 	default:
 		break;
 	}
+	std::cout << "Intern created " << *result << std::endl;
+	return result;
 
 }
 
