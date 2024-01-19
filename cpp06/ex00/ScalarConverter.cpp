@@ -96,7 +96,6 @@ bool	ScalarConverter::isDouble(const std::string& toConvert)
 	int		decimals = 0;
 	for (std::string::const_iterator it = toConvert.begin(); *it != 0; ++it)
 	{
-		std::cout << *it;
 		if (dot == true)
 		{
 			for(;*it != 0;++it)
@@ -148,7 +147,7 @@ void ScalarConverter::convert(const std::string& toConvert)
 	}
 	else if (isInt(toConvert))
 	{
-		std::cout << " INT " << std::endl;
+		// std::cout << " INT " << std::endl;
 		int n = std::stoi(toConvert);
 		if (static_cast<char>(n) >= 32 && static_cast<char>(n) <= 126)
 			std::cout << "char -> " <<  static_cast<char>(n) << std::endl;
@@ -160,7 +159,7 @@ void ScalarConverter::convert(const std::string& toConvert)
 	}
 	else if (isFloat(toConvert))
 	{
-		std::cout << " FLOAT " << std::endl;
+		// std::cout << " FLOAT " << std::endl;
 		float n = std::stof(toConvert);
 		if (static_cast<char>(n) >= 32 && static_cast<char>(n) <= 126)
 			std::cout << "char -> " <<  static_cast<char>(n) << std::endl;
@@ -175,7 +174,7 @@ void ScalarConverter::convert(const std::string& toConvert)
 	}
 	else if (isDouble(toConvert))
 	{
-		std::cout << " DOUBLE " << std::endl;
+		// std::cout << " DOUBLE " << std::endl;
 		double n = std::stod(toConvert);
 		if (static_cast<char>(n) >= 32 && static_cast<char>(n) <= 126)
 			std::cout << "char -> " <<  static_cast<char>(n) << std::endl;
@@ -193,7 +192,7 @@ void ScalarConverter::convert(const std::string& toConvert)
 	}
 	else if (!isdigit(toConvert[0]) && toConvert.size() < 2)
 	{
-		std::cout << " CHAR " << std::endl;
+		// std::cout << " CHAR " << std::endl;
 		if (toConvert[0] >= 32 && toConvert[0] <= 126)
 			std::cout << "char -> " <<  toConvert[0] << std::endl;
 		else
