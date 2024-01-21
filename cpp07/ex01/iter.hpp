@@ -3,8 +3,9 @@
 
 #include <iostream>
 
-template <typename T>
-void	iter(T array[], int length, void (*f)(T const &))
+
+template <typename T, typename A>
+void	iter(T array[], int length, void (*f)(A))
 {
 	for (int i = 0; i < length; ++i)
 		f(array[i]);

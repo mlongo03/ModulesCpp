@@ -4,6 +4,8 @@ SRC = $(wildcard *.cpp)
 
 HDRS = $(wildcard *.hpp)
 
+TMPLS = $(wildcard *.tpp)
+
 OBJS = $(SRC:.cpp=.o)
 
 FLAGS := -Wall -Werror -Wextra -std=c++98
@@ -22,7 +24,7 @@ all: $(NAME)
 %.o : %.cpp
 	@(c++ $(FLAGS) -c $< -o $@)
 
-$(NAME): $(OBJS) $(HDRS)
+$(NAME): $(OBJS) $(HDRS) $(TMPLS)
 	@(c++ $(FLAGS) $(OBJS) -o $(NAME))
 	@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
 
