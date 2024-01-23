@@ -1,4 +1,4 @@
-#ifndef Array_hPP
+#ifndef Array_HPP
 #define Array_HPP
 
 #include <iostream>
@@ -42,7 +42,7 @@ Array<T>::Array(unsigned int uinteger)
 }
 
 template<typename T>
-Array<T>::Array(const Array<T>& toCopy)
+Array<T>::Array(const Array<T>& toCopy) : array(0), length(0)
 {
 	*this = toCopy;
 }
@@ -53,7 +53,8 @@ Array<T>& Array<T>::operator=(const Array<T>& toCopy)
 	if (this == &toCopy)
 		return (*this);
 	this->length = toCopy.size();
-	delete [] this->array;
+	if (this->array != 0)
+		delete [] this->array;
 	this->array = 0;
 	if (this->length)
 	{
