@@ -17,8 +17,7 @@ class OccurrenceNotFound : public std::exception
 template<typename T>
 void	easyfind(T cont, int integer)
 {
-	if (std::find(cont.begin(), cont.end(), integer) == cont.end())
-	// if(cont.find(integer) == cont.end())
+	if(cont.find(integer) == cont.end())
 		throw OccurrenceNotFound();
 	std::cout << "Occurrence " << integer << " has been found" << std::endl;
 }
