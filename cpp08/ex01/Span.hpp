@@ -1,17 +1,17 @@
 #ifndef Span_HPP
 #define Span_HPP
 
-#include <list>
+#include <vector>
 #include <string>
 #include <iostream>
 
 class Span
 {
 	private:
-		std::list<int>	list;
+		std::vector<int>	vector;
 		int				size;
 		int	getSize()	const;
-		std::list<int>	getList() const;
+		std::vector<int>	getvector() const;
 	public:
 		Span();
 		Span(unsigned int n);
@@ -19,15 +19,28 @@ class Span
 		~Span();
 		Span&	operator=(const Span& toCopy);
 		void	addNumber(int n);
-		// void	addNumbers(int n);
-		int		shortestSpan() const;
-		int		longestSpan() const;
+		int		shortestSpan();
+		int		longestSpan();
+		template <typename Iterator>
+		void	addNumbers(Iterator begin, Iterator end);
 	public:
 		class StackAlreadyFull : public std::exception
 		{
 			public:
 				virtual const char* what() const throw();
 		};
+		class NoSpanFoundable : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 };
+
+template <typename Iterator>
+void	Span::addNumbers(Iterator begin, Iterator end)
+{
+	for(; begin != end; begin++)
+		addNumber(*begin);
+}
 
 #endif
