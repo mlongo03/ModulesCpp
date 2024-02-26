@@ -178,19 +178,12 @@ float	analize_value(const std::string& value)
 
 float	BitcoinExchange::find_value(std::string date, float value)
 {
-	for (std::multimap<std::string, float>::iterator it = csv.begin(); it != csv.end(); it++)
+	for (std::multimap<std::string, float>::iterator it = csv.end(); it != csv.begin(); it--)
 	{
-		if (date.compare(it->first) <= 0)
-		{
-			if (date.compare(it->first) == 0)
-				return value * it->second;
-			else if (date.compare(it->first) < 0 && it != csv.begin())
-			{
-				it--;
-				return value * it->second;
-				it++;
-			}
-		}
+		if (it == csv.end())
+			it--;
+		if (date.compare(it->first) >= 0)
+			return value * it->second;
 	}
 	return 0;
 }
