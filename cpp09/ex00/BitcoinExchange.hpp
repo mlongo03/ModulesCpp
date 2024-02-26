@@ -19,14 +19,14 @@ class BitcoinExchange
 		BitcoinExchange(const BitcoinExchange& toCopy);
 		~BitcoinExchange();
 		BitcoinExchange&	operator=(const BitcoinExchange& toCopy);
-		void									load_exchange_file(std::string file);
-		void									load_csv_file(std::string file);
-		void									print_exchange_output();
+		void								load_exchange_file(std::string file);
+		void								load_csv_file(std::string file);
+		void								print_exchange_output();
 		std::multimap<std::string, float>	get_csv() const;
-		std::deque<std::string>					get_unordered_dates() const;
-		std::deque<std::string>					get_unordered_values() const;
-		std::string								get_file_exchange_name() const;
-		std::string								get_csv_name() const;
+		std::deque<std::string>				get_unordered_dates() const;
+		std::deque<std::string>				get_unordered_values() const;
+		std::string							get_file_exchange_name() const;
+		std::string							get_csv_name() const;
 	public:
 		class FileIsNotCSV : public std::exception
 		{
