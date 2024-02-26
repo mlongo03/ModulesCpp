@@ -252,7 +252,7 @@ const char* BitcoinExchange::ErrorOpeningFile::what() const throw()
 
 const char* BitcoinExchange::WrongSeparator::what() const throw()
 {
-	return "no '|' separator found for exchange file";
+	return "no '|' separator found for exchange file or is empty";
 }
 
 const char* BitcoinExchange::FileNotLoaded::what() const throw()
