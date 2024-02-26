@@ -25,7 +25,8 @@ BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange& toCopy)
 	this->csv_file_name = toCopy.get_csv_name();
 	this->file_name = toCopy.get_file_exchange_name();
 	this->csv = toCopy.get_csv();
-	this->file_exchange = toCopy.get_file_exchange();
+	this->unordered_exchange_dates = toCopy.unordered_exchange_dates;
+	this->unordered_exchange_values = toCopy.unordered_exchange_values;
 	return *this;
 }
 
@@ -65,7 +66,7 @@ void	BitcoinExchange::load_exchange_file(std::string file)
 	if (!file_name.compare(""))
 	{
 		unordered_exchange_dates.clear();
-		file_exchange.clear();
+		unordered_exchange_values.clear();
 	}
 
 	file_name = file;
@@ -83,17 +84,14 @@ void	BitcoinExchange::load_exchange_file(std::string file)
 		if (line.find(separator) == std::string::npos)
 		{
 			unordered_exchange_dates.push_back(line);
-			file_exchange.insert(std::make_pair(line, ""));
+			unordered_exchange_values.push_back("");
 		}
 		else
 		{
 			unordered_exchange_dates.push_back(line.substr(0, line.find(separator)));
-			file_exchange.insert(std::make_pair(line.substr(0, line.find(separator)), line.substr(line.find(separator) + 3)));
+			unordered_exchange_values.push_back(line.substr(line.find(separator) + 3));
 		}
 	}
-	for (std::deque<std::string>::iterator it = unordered_exchange_dates.begin(); it != unordered_exchange_dates.end(); it++)
-		std::cout << *it << std::endl;
-	std::cout << "--------------------------------" << std::endl;
 }
 
 void	BitcoinExchange::load_csv_file(std::string file)
@@ -121,17 +119,33 @@ void	BitcoinExchange::load_csv_file(std::string file)
 
 void	BitcoinExchange::print_exchange_output()
 {
-	
-}
+	if (file_name.compare("") || csv_file_name.compare(""))
+		throw BitcoinExchange::FileNotLoaded();
 
-std::multimap<std::string, std::string>	BitcoinExchange::get_file_exchange() const
-{
-	return this->file_exchange;
+	std::deque<std::string>::iterator it_values = unordered_exchange_dates.begin();
+	for (std::deque<std::string>::iterator it_dates = unordered_exchange_dates.begin(); it_dates != unordered_exchange_dates.end(); it_dates++)
+	{
+		if (!analize_date(*it))
+			std::cout << "Error: bad input => " << *it << std::endl;
+		if (!analize_value(*it))
+		
+		it_values++;
+	}
 }
 
 std::multimap<std::string, std::string>	BitcoinExchange::get_csv() const
 {
 	return this->csv;
+}
+
+std::deque<std::string>	BitcoinExchange::get_unordered_dates() const
+{
+	return unordered_exchange_dates;
+}
+
+std::deque<std::string>	BitcoinExchange::get_unordered_values() const
+{
+	return unordered_exchange_values;
 }
 
 std::string	BitcoinExchange::get_file_exchange_name() const
@@ -159,3 +173,7 @@ const std::string BitcoinExchange::WrongSeparator::what(std::string file) const 
 	return "no '|' separator found for exchange file -> " + file;
 }
 
+const char* BitcoinExchange::FileNotLoaded::what() const throw()
+{
+	return "File is not loaded yet";
+}

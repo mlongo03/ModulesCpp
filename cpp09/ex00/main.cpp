@@ -17,19 +17,27 @@ int main(int argc, char **argv)
 
 	BitcoinExchange btc;
 
-	// btc.load_csv_file("./data.csv");
+	btc.load_csv_file("./data.csv");
 	btc.load_exchange_file((std::string)argv[1]);
 
 	// std::multimap<std::string, std::string> csv = btc.get_csv();
-	std::multimap<std::string, std::string> exchange_multimap = btc.get_file_exchange();
+	// std::multimap<std::string, std::string> exchange_multimap = btc.get_file_exchange();
 
 	// for (std::multimap<std::string, std::string>::iterator it = csv.begin(); it != csv.end(); it++)
 	// 	std::cout << it->first << " " << it->second << std::endl;
 
 	// std::cout << "----------------------------------------------------" << std::endl;
 
-	for (std::multimap<std::string, std::string>::iterator it = exchange_multimap.begin(); it != exchange_multimap.end(); it++)
-		std::cout << it->first << " " << it->second << std::endl;
+	std::deque<std::string> un_ex_dates = btc.get_unordered_dates();
+	std::deque<std::string> un_ex_values = btc.get_unordered_values();
+
+	std::deque<std::string>::iterator it1 = un_ex_values.begin();
+
+	for (std::deque<std::string>::iterator it = un_ex_dates.begin(); it != un_ex_dates.end(); it++)
+	{
+		std::cout << *it << ", " << *it1 << std::endl;
+		it1++;
+	}
 
 	return 0;
 }
