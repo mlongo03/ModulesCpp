@@ -10,9 +10,10 @@ class BitcoinExchange
 	private:
 		std::string file_name;
 		std::string csv_file_name;
-		std::multimap<std::string, std::string> csv;
+		std::multimap<std::string, float> csv;
 		std::deque<std::string> unordered_exchange_values;
 		std::deque<std::string>	unordered_exchange_dates;
+		float	find_value(std::string date, float value);
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange& toCopy);
@@ -21,7 +22,7 @@ class BitcoinExchange
 		void									load_exchange_file(std::string file);
 		void									load_csv_file(std::string file);
 		void									print_exchange_output();
-		std::multimap<std::string, std::string>	get_csv() const;
+		std::multimap<std::string, float>	get_csv() const;
 		std::deque<std::string>					get_unordered_dates() const;
 		std::deque<std::string>					get_unordered_values() const;
 		std::string								get_file_exchange_name() const;
@@ -35,14 +36,29 @@ class BitcoinExchange
 		class ErrorOpeningFile : public std::exception
 		{
 			public:
-				virtual const std::string what(std::string file) const throw();
+				virtual const char* what() const throw();
 		};
 		class WrongSeparator : public std::exception
 		{
 			public:
-				virtual const std::string what(std::string file) const throw();
+				virtual const char* what() const throw();
 		};
 		class FileNotLoaded : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+		class NoPositiveNumber : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+		class TooLargeNumber : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+		class InvalidNumber : public std::exception
 		{
 			public:
 				virtual const char* what() const throw();

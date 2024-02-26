@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -61,9 +62,9 @@ void	BitcoinExchange::load_exchange_file(std::string file)
 	std::ifstream inFile(file.c_str());
 
 	if (!inFile.is_open())
-		throw BitcoinExchange::ErrorOpeningFile().what(file);
+		throw BitcoinExchange::ErrorOpeningFile();
 
-	if (!file_name.compare(""))
+	if (file_name.compare(""))
 	{
 		unordered_exchange_dates.clear();
 		unordered_exchange_values.clear();
@@ -75,7 +76,7 @@ void	BitcoinExchange::load_exchange_file(std::string file)
 	getline(inFile, line);
 
 	if (line.find(" | ") == std::string::npos)
-		throw BitcoinExchange::WrongSeparator().what(file);
+		throw BitcoinExchange::WrongSeparator();
 
 	std::string separator = " | ";
 
@@ -102,9 +103,9 @@ void	BitcoinExchange::load_csv_file(std::string file)
 	std::ifstream inFile(file.c_str());
 
 	if (!inFile.is_open())
-		throw BitcoinExchange::ErrorOpeningFile().what(file);
+		throw BitcoinExchange::ErrorOpeningFile();
 
-	if (!csv_file_name.compare(""))
+	if (csv_file_name.compare(""))
 		csv.clear();
 	csv_file_name = file;
 
@@ -113,27 +114,115 @@ void	BitcoinExchange::load_csv_file(std::string file)
 
 	char separator = findSeparator(line);
 
+	float number;
+
 	while (getline(inFile, line))
-		csv.insert(std::make_pair(line.substr(0, line.find(separator)),  line.substr(line.find(separator) + 1)));
+	{
+		std::istringstream iss(line.substr(line.find(separator) + 1));
+		iss >> number;
+		csv.insert(std::make_pair(line.substr(0, line.find(separator)), number));
+	}
+}
+
+bool isLeapYear(int year)
+{
+	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+}
+
+bool analize_date(const std::string& date)
+{
+	std::istringstream dateStream(date.c_str());
+	int year, month, day;
+	char dash1, dash2;
+
+	if (!(dateStream >> year >> dash1 >> month >> dash2 >> day))
+		return false;
+
+	if (year < 0 || month < 1 || month > 12 || day < 1 || day > 31 || dash1 != '-' || dash2 != '-')
+		return false;
+
+	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
+		return false;
+	else if (month == 2)
+	{
+		if (isLeapYear(year))
+		{
+			if (day > 29)
+				return false;
+		}
+		else
+		{
+			if (day > 28)
+				return false;
+		}
+	}
+	else if (day > 31)
+		return false;
+
+	return true;
+}
+
+float	analize_value(const std::string& value)
+{
+	std::istringstream iss(value);
+	float number;
+
+	if (!(iss >> number))
+		throw BitcoinExchange::InvalidNumber();
+	if (number < 0)
+		throw BitcoinExchange::NoPositiveNumber();
+	if (number > 1000)
+		throw BitcoinExchange::TooLargeNumber();
+	return number;
+}
+
+float	BitcoinExchange::find_value(std::string date, float value)
+{
+	for (std::multimap<std::string, float>::iterator it = csv.begin(); it != csv.end(); it++)
+	{
+		if (date.compare(it->first) <= 0)
+		{
+			if (date.compare(it->first) == 0)
+				return value * it->second;
+			else if (date.compare(it->first) < 0 && it != csv.begin())
+			{
+				it--;
+				return value * it->second;
+				it++;
+			}
+		}
+	}
+	return 0;
 }
 
 void	BitcoinExchange::print_exchange_output()
 {
-	if (file_name.compare("") || csv_file_name.compare(""))
+	if (!file_name.compare("") || !csv_file_name.compare(""))
 		throw BitcoinExchange::FileNotLoaded();
 
-	std::deque<std::string>::iterator it_values = unordered_exchange_dates.begin();
+	std::deque<std::string>::iterator it_values = unordered_exchange_values.begin();
 	for (std::deque<std::string>::iterator it_dates = unordered_exchange_dates.begin(); it_dates != unordered_exchange_dates.end(); it_dates++)
 	{
-		if (!analize_date(*it))
-			std::cout << "Error: bad input => " << *it << std::endl;
-		if (!analize_value(*it))
-		
+		if (!analize_date(*it_dates))
+			std::cout << "Error: bad input => " << *it_dates << std::endl;
+		else
+		{
+			try
+			{
+				float number = analize_value(*it_values);
+				std::cout << *it_dates << " => " << *it_values << " = " << find_value(*it_dates, number) << std::endl;
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << '\n';
+			}
+		}
+
 		it_values++;
 	}
 }
 
-std::multimap<std::string, std::string>	BitcoinExchange::get_csv() const
+std::multimap<std::string, float>	BitcoinExchange::get_csv() const
 {
 	return this->csv;
 }
@@ -163,17 +252,32 @@ const char* BitcoinExchange::FileIsNotCSV::what() const throw()
 	return "File is not a CSV file";
 }
 
-const std::string BitcoinExchange::ErrorOpeningFile::what(std::string file) const throw()
+const char* BitcoinExchange::ErrorOpeningFile::what() const throw()
 {
-	return "Error opening " + file + " file";
+	return "Error opening file";
 }
 
-const std::string BitcoinExchange::WrongSeparator::what(std::string file) const throw()
+const char* BitcoinExchange::WrongSeparator::what() const throw()
 {
-	return "no '|' separator found for exchange file -> " + file;
+	return "no '|' separator found for exchange file";
 }
 
 const char* BitcoinExchange::FileNotLoaded::what() const throw()
 {
 	return "File is not loaded yet";
+}
+
+const char* BitcoinExchange::InvalidNumber::what() const throw()
+{
+	return "Error: invalid number";
+}
+
+const char* BitcoinExchange::NoPositiveNumber::what() const throw()
+{
+	return "Error: not a positive number.";
+}
+
+const char* BitcoinExchange::TooLargeNumber::what() const throw()
+{
+	return "Error: too large a number.";
 }
