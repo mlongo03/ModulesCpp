@@ -21,7 +21,7 @@ RPN&	RPN::operator=(const RPN& toCopy)
 	return *this;
 }
 
-void	RPN::calculate_RPN(std::string& expression)
+void	RPN::calculate_RPN(std::string expression)
 {
 	int num1;
 	int num2;
@@ -33,23 +33,30 @@ void	RPN::calculate_RPN(std::string& expression)
 		else if (*it == '+' || *it == '/' || *it == '*' || *it == '-')
 		{
 			num2 = stack.top();
-			// num1 = //penultimo numero dello stack
+			stack.pop();
+			num1 = stack.top();
+			stack.pop();
 			switch (*it)
 			{
-			case '+':
-				break;
-			case '-':
-				break;
-			case '/':
-				break;
-			case '*':
-				break;
+				case '+':
+					stack.push(num1 + num2);
+					break;
+				case '-':
+					stack.push(num1 - num2);
+					break;
+				case '/':
+					stack.push(num1 / num2);
+					break;
+				case '*':
+					stack.push(num1 * num2);
+					break;
 			}
 		}
-		else
+		else if (!std::isspace(*it))
 		{
 			std::cout << "Error" << std::endl;
 			return ;
 		}
 	}
+	std::cout << stack.top() << std::endl;
 }

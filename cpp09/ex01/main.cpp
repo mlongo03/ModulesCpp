@@ -10,5 +10,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	RPN rpn;
+	rpn.calculate_RPN(argv[1]);
+
 	return 0;
 }

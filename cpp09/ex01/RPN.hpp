@@ -13,7 +13,7 @@ class RPN
 		RPN(const RPN& toCopy);
 		~RPN();
 		RPN&	operator=(const RPN& toCopy);
-		void	calculate_RPN(std::string& expression);
+		void	calculate_RPN(std::string expression);
 };
 
 #endif
