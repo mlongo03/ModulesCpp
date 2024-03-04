@@ -4,11 +4,25 @@
 
 int main(int argc, char **argv)
 {
-	if (argc != 2)
+	if (argc < 3)
 	{
-		std::cout << "Error: usage <program name> <inverted Polish mathematical expression>" << std::endl;
+		std::cout << "Error: usage <program name> list of positive integer numbers" << std::endl;
 		return 1;
 	}
+
+	PmergeMe algorithm;
+
+	try
+	{
+		algorithm.check_arguments(&argv[1]);
+		algorithm.load_list(&argv[1]);
+		algorithm.load_vector(&argv[1]);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
 
 	return 0;
 }
