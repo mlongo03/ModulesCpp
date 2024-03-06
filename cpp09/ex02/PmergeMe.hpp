@@ -21,6 +21,8 @@ class PmergeMe
 		void				check_arguments(char **argv);
 		void				load_vector(char **argv);
 		void				load_list(char **argv);
+		void				sort_list();
+		void				sort_vector();
 
 	public:
 		class NegativeNumber : public std::exception
@@ -29,6 +31,11 @@ class PmergeMe
 				virtual const char* what() const throw();
 		};
 		class NotAnInteger : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+		class HasDuplicated : public std::exception
 		{
 			public:
 				virtual const char* what() const throw();
