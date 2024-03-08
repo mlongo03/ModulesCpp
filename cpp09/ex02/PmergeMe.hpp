@@ -8,19 +8,16 @@
 class PmergeMe
 {
 	private:
-		std::list<int> stack_list;
-		std::vector<int> stack_vector;
+		std::vector<int> numbers;
 
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe& toCopy);
 		~PmergeMe();
 		PmergeMe&			operator=(const PmergeMe& toCopy);
-		std::list<int>		get_list() const;
-		std::vector<int>	get_vector() const;
+		std::vector<int>	get_numbers() const;
 		void				check_arguments(char **argv);
-		void				load_vector(char **argv);
-		void				load_list(char **argv);
+		void				load_numbers(char **argv);
 		void				sort_list();
 		void				sort_vector();
 
