@@ -131,30 +131,42 @@ void	insert_at(size_t position, std::vector<std::vector<int> > &ordered, std::ve
 void	binary_insertion(std::vector<std::vector<int> > pend, std::vector<std::vector<int> > &ordered)
 {
 	std::vector<std::vector<int> >::iterator it = ordered.begin();
-	// int j = 0;
 	int start;
 	int end;
 	int middle = 0;
+	size_t j_index;
 
 	if (pend.size() == 0)
 		return ;
 	ordered.insert(it, pend[0]);
-	for (size_t i = 1; i < pend.size(); i++)
+	for (size_t i = 1; jacobsthal[i]; i++)
 	{
-		// std::cout << "inserting... " << pend[i][0] << std::endl;
-		start = 0;
-		end = ordered.size() - 1;
-		while ((end - start) > 0)
+		if (jacobsthal[i] > pend.size())
 		{
-			if (middle_compare(ordered, pend[i][0], start, end, middle))
-				start = middle + 1;
-			else
-				end = middle - 1;
+			if (jacobsthal[i - 1] >= pend.size())
+				return ;
+			j_index = pend.size() - 1;
 		}
-		if (pend[i][0] > ordered[start][0])
-			insert_at(start, ordered, pend[i], 1);
 		else
-			insert_at(start, ordered, pend[i], -1);
+			j_index = jacobsthal[i] - 1;
+		// std::cout << "inserting... " << pend[i][0] << std::endl;
+		for (; j_index > jacobsthal[i - 1] - 1; j_index--)
+		{
+			std::cout << "Jacobstahal index = " << j_index << std::endl;
+			start = 0;
+			end = ordered.size() - 1;
+			while ((end - start) > 0)
+			{
+				if (middle_compare(ordered, pend[j_index][0], start, end, middle))
+					start = middle + 1;
+				else
+					end = middle - 1;
+			}
+			if (pend[j_index][0] > ordered[start][0])
+				insert_at(start, ordered, pend[j_index], 1);
+			else
+				insert_at(start, ordered, pend[j_index], -1);
+		}
 	}
 }
 
