@@ -70,12 +70,10 @@ void	PmergeMe::load_numbers(char **argv)
 
 bool	middle_compare_deque(std::deque<std::deque<int> > &ordered, int number, int start, int end, int &middle)
 {
-	// std::cout << "end = " << end << ", start = " << start << std::endl;
 	if ((end - start) % 2 == 0)
 		middle = ((end - start) / 2 - 1) + start;
 	else
 		middle = ((end - start) / 2) + start;
-	// std::cout << "middle = " << middle << std::endl;
 	if (number > ordered[middle][0])
 		return true;
 	else
@@ -86,12 +84,10 @@ void	insert_at_deque(size_t position, std::deque<std::deque<int> > &ordered, std
 {
 	std::deque<std::deque<int> >::iterator it = ordered.begin();
 
-	// std::cout << "position = " << position << ", " << ((front_back == 1) ? "front" : "back") << std::endl;
-
 	if (position + front_back == ordered.size())
 		ordered.push_back(pend_value);
 	else if (position + front_back == (size_t)-1)
-		ordered.insert(it, pend_value);
+		ordered.push_front(pend_value);
 	else
 	{
 		if (front_back == 1)
@@ -104,7 +100,6 @@ void	insert_at_deque(size_t position, std::deque<std::deque<int> > &ordered, std
 
 void	binary_insertion_deque(std::deque<std::deque<int> > pend, std::deque<std::deque<int> > &ordered)
 {
-	std::deque<std::deque<int> >::iterator it = ordered.begin();
 	int start;
 	int end;
 	int middle = 0;
@@ -112,7 +107,7 @@ void	binary_insertion_deque(std::deque<std::deque<int> > pend, std::deque<std::d
 
 	if (pend.size() == 0)
 		return ;
-	ordered.insert(it, pend[0]);
+	ordered.push_front(pend[0]);
 	for (size_t i = 1; jacobsthal[i]; i++)
 	{
 		if (jacobsthal[i] > pend.size())
@@ -123,10 +118,8 @@ void	binary_insertion_deque(std::deque<std::deque<int> > pend, std::deque<std::d
 		}
 		else
 			j_index = jacobsthal[i] - 1;
-		// std::cout << "inserting... " << pend[i][0] << std::endl;
 		for (; j_index > jacobsthal[i - 1] - 1; j_index--)
 		{
-			// std::cout << "Jacobstahal index = " << j_index << std::endl;
 			start = 0;
 			end = ordered.size() - 1;
 			while ((end - start) > 0)
@@ -148,20 +141,6 @@ void	regenerate_result_deque(std::deque<std::deque<int> > &result, std::deque<st
 {
 	int ex_pos;
 
-	// std::cout << "----------\nbefore result" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-	// std::cout << "----------\nmain chain" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < main_chain[i].size(); j++)
-	// 		std::cout << main_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 	for (size_t i = 0; i < result.size(); i++)
 	{
 		ex_pos = result[i][1];
@@ -171,30 +150,14 @@ void	regenerate_result_deque(std::deque<std::deque<int> > &result, std::deque<st
 			if (j % 2 == 0 && main_chain[ex_pos][j] == 0)
 				break ;
 			result[i].push_back(main_chain[ex_pos][j]);
-			// std::cout << "--------\ni = " << i << std::endl;
-			// std::cout << result[i][j] << " = " << main_chain[ex_pos][j] << std::endl;
 		}
 	}
-	// std::cout << "----------\nafter result" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 }
 
 std::deque<std::deque<int> > create_pend_deque(std::deque<std::deque<int> > chain, std::deque<std::deque<int> > old_chain, std::deque<int> OddNumber)
 {
 	std::deque<std::deque<int> > pend;
 
-	// std::cout << "----------\nfrom chain" << std::endl;
-	// for (size_t i = 0; i < old_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < old_chain[i].size(); j++)
-	// 		std::cout << old_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 	for (size_t i = 0; i < chain.size(); i++)
 	{
 		std::deque<int> tmp;
@@ -202,7 +165,6 @@ std::deque<std::deque<int> > create_pend_deque(std::deque<std::deque<int> > chai
 		tmp.push_back(old_chain[chain[i][1]][3]);
 		pend.push_back(tmp);
 	}
-	// std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	if (OddNumber[0] != -1)
 		pend.push_back(OddNumber);
 
@@ -222,20 +184,8 @@ std::deque<std::deque<int> > merge_insertion_deque(std::deque<std::deque<int> > 
 		OddNumber = input_chain.back();
 		OddNumber[1] = input_chain.size() - 1;
 		input_chain.pop_back();
-		// std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	}
 
-	// in this for loop i create a deque containing deques with first number the larger one of the pairs, second its position in the
-	// old chain, third the lower number of the array and finally its position in the old chain, i am doing this beacuse every function call
-	// aim to order order the largest numbers of the pairs and so every function may can change the position of pairs and so i have to remember
-	// where they were before to regain their pending values and insert them in the chain, this is because when i have done with the recursion
-	// i am in a situation where i have the main chain ordered and i have to insert pending values in the right order through binary search
-	// so coming back to previous function call because recursion is LIFO i have to regenerate pending values from the position of the main chain's
-	// values to restore pending values to insert in the current recurtion and so coming back to recursion ensure that the main chain is always
-	// ordered and i only have to insert in the right place regained pending values and then return the result to the previous fucntion call. I say
-	// regain pending values because i cannot use anymore the current function call pending values because they depend on the order of their
-	// corresponding greater values which they may have changed order in later function call and so to regain pending values following the right
-	// order i watch the previous order of the larger values and put their pending values to the right order.
 	for (size_t i = 0; i < input_chain.size(); i += 2)
 	{
 		if (input_chain[i][0] > input_chain[i + 1][0])
@@ -258,70 +208,31 @@ std::deque<std::deque<int> > merge_insertion_deque(std::deque<std::deque<int> > 
 		}
 	}
 
-	// std::cout << "recursion " << recursion << std::endl;
-	// std::cout << "----------\nall" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < main_chain[i].size(); j++)
-	// 		std::cout << main_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-
-	// std::cout << "main chain" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// 	std::cout << main_chain[i][0] << " ";
-	// std::cout << std::endl;
-
 	if (main_chain.size() != 1)
 		result = merge_insertion_deque(main_chain, recursion + 1);
 	else
 	{
-		// std::cout << "recursion " << recursion << std::endl;
 		std::deque<std::deque<int> >::iterator it;
 		it = main_chain.begin();
 		std::deque<int>	tmp;
 		tmp.push_back(main_chain[0][main_chain[0].size() - 2]);
 		tmp.push_back(main_chain[0][main_chain[0].size() - 1]);
-		it = main_chain.insert (it , tmp);
+		main_chain.push_front(tmp);
 		if (OddNumber[0] != -1)
 		{
-			// std::cout << "adding... " << OddNumber[0] << std::endl;
 			if (OddNumber[0] < main_chain[0][0])
-				main_chain.insert (it , OddNumber);
+				main_chain.push_front(OddNumber);
 			else if (OddNumber[0] < main_chain[1][0])
 				main_chain.insert (it + 1 , OddNumber);
 			else
 				main_chain.push_back(OddNumber);
 
 		}
-		// std::cout << "tmp = " ;
-		// for (size_t i = 0; i < tmp.size(); i++)
-		// 	std::cout << tmp[i] << " ";
-		// std::cout << std::endl;
 		return main_chain;
 	}
-	// std::cout << "recursion " << recursion << std::endl;
-	// std::cout << "----------\nresult" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 
-	// std::cout << "recursion " << recursion << std::endl;
 	pend = create_pend_deque(result, main_chain, OddNumber);
 	regenerate_result_deque(result, main_chain);
-	// std::cout << "----------\npend" << std::endl;
-	// for (size_t i = 0; i < pend.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < pend[i].size(); j++)
-	// 		std::cout << pend[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-
-	//make the binary search and insert
-	// if (recursion == 1)
 	binary_insertion_deque(pend, result);
 
 	return result;
@@ -333,9 +244,7 @@ void	PmergeMe::sort_deque()
 	std::deque<std::deque<int> >	result;
 	std::deque<int>				tmp;
 
-    // Start measuring time
     clock_t start = clock();
-
 
 	std::cout << RED << "unsorted deque = ";
 	for (size_t i = 0; i < numbers.size(); i++)
@@ -346,24 +255,15 @@ void	PmergeMe::sort_deque()
 		tmp.clear();
 	}
 	std::cout << RESET << std::endl;
-	// std::cout << "first chain" << std::endl;
-	// for (size_t i = 0; i < first_chain.size(); i++)
-	// 	std::cout << first_chain[i][0] << " ";
-	// std::cout << std::endl;
+
 	result = merge_insertion_deque(first_chain, 0);
 
-    // End measuring time
     clock_t end = clock();
-
 	std::cout << GREEN << "sorted deque   = ";
 	for (size_t i = 0; i < result.size(); i++)
 		std::cout << GREEN << result[i][0] << " ";
 	std::cout << RESET << std::endl;
-
-    // Calculate the elapsed time
     double elapsed_time = double(end - start) / CLOCKS_PER_SEC;
-    // double elapsed_time = double(end - start) / CLOCKS_PER_SEC;
-
     std::cout << BLUE << "Time needed by deque to sort: " << WHITE << elapsed_time << " seconds" << RESET << std::endl;
 }
 
@@ -371,13 +271,6 @@ std::vector<std::vector<int> > create_pend_vector(std::vector<std::vector<int> >
 {
 	std::vector<std::vector<int> > pend;
 
-	// std::cout << "----------\nfrom chain" << std::endl;
-	// for (size_t i = 0; i < old_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < old_chain[i].size(); j++)
-	// 		std::cout << old_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 	for (size_t i = 0; i < chain.size(); i++)
 	{
 		std::vector<int> tmp;
@@ -385,7 +278,6 @@ std::vector<std::vector<int> > create_pend_vector(std::vector<std::vector<int> >
 		tmp.push_back(old_chain[chain[i][1]][3]);
 		pend.push_back(tmp);
 	}
-	// std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	if (OddNumber[0] != -1)
 		pend.push_back(OddNumber);
 
@@ -394,12 +286,10 @@ std::vector<std::vector<int> > create_pend_vector(std::vector<std::vector<int> >
 
 bool	middle_compare_vector(std::vector<std::vector<int> > &ordered, int number, int start, int end, int &middle)
 {
-	// std::cout << "end = " << end << ", start = " << start << std::endl;
 	if ((end - start) % 2 == 0)
 		middle = ((end - start) / 2 - 1) + start;
 	else
 		middle = ((end - start) / 2) + start;
-	// std::cout << "middle = " << middle << std::endl;
 	if (number > ordered[middle][0])
 		return true;
 	else
@@ -409,8 +299,6 @@ bool	middle_compare_vector(std::vector<std::vector<int> > &ordered, int number, 
 void	insert_at_vector(size_t position, std::vector<std::vector<int> > &ordered, std::vector<int> pend_value, size_t front_back)
 {
 	std::vector<std::vector<int> >::iterator it = ordered.begin();
-
-	// std::cout << "position = " << position << ", " << ((front_back == 1) ? "front" : "back") << std::endl;
 
 	if (position + front_back == ordered.size())
 		ordered.push_back(pend_value);
@@ -447,10 +335,8 @@ void	binary_insertion_vector(std::vector<std::vector<int> > pend, std::vector<st
 		}
 		else
 			j_index = jacobsthal[i] - 1;
-		// std::cout << "inserting... " << pend[i][0] << std::endl;
 		for (; j_index > jacobsthal[i - 1] - 1; j_index--)
 		{
-			// std::cout << "Jacobstahal index = " << j_index << std::endl;
 			start = 0;
 			end = ordered.size() - 1;
 			while ((end - start) > 0)
@@ -472,20 +358,6 @@ void	regenerate_result_vector(std::vector<std::vector<int> > &result, std::vecto
 {
 	int ex_pos;
 
-	// std::cout << "----------\nbefore result" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-	// std::cout << "----------\nmain chain" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < main_chain[i].size(); j++)
-	// 		std::cout << main_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 	for (size_t i = 0; i < result.size(); i++)
 	{
 		ex_pos = result[i][1];
@@ -495,17 +367,8 @@ void	regenerate_result_vector(std::vector<std::vector<int> > &result, std::vecto
 			if (j % 2 == 0 && main_chain[ex_pos][j] == 0)
 				break ;
 			result[i].push_back(main_chain[ex_pos][j]);
-			// std::cout << "--------\ni = " << i << std::endl;
-			// std::cout << result[i][j] << " = " << main_chain[ex_pos][j] << std::endl;
 		}
 	}
-	// std::cout << "----------\nafter result" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 }
 
 std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<int> > input_chain, int recursion)
@@ -521,20 +384,8 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		OddNumber = input_chain.back();
 		OddNumber[1] = input_chain.size() - 1;
 		input_chain.pop_back();
-		// std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	}
 
-	// in this for loop i create a vector containing vectors with first number the larger one of the pairs, second its position in the
-	// old chain, third the lower number of the array and finally its position in the old chain, i am doing this beacuse every function call
-	// aim to order order the largest numbers of the pairs and so every function may can change the position of pairs and so i have to remember
-	// where they were before to regain their pending values and insert them in the chain, this is because when i have done with the recursion
-	// i am in a situation where i have the main chain ordered and i have to insert pending values in the right order through binary search
-	// so coming back to previous function call because recursion is LIFO i have to regenerate pending values from the position of the main chain's
-	// values to restore pending values to insert in the current recurtion and so coming back to recursion ensure that the main chain is always
-	// ordered and i only have to insert in the right place regained pending values and then return the result to the previous fucntion call. I say
-	// regain pending values because i cannot use anymore the current function call pending values because they depend on the order of their
-	// corresponding greater values which they may have changed order in later function call and so to regain pending values following the right
-	// order i watch the previous order of the larger values and put their pending values to the right order.
 	for (size_t i = 0; i < input_chain.size(); i += 2)
 	{
 		if (input_chain[i][0] > input_chain[i + 1][0])
@@ -557,25 +408,10 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		}
 	}
 
-	// std::cout << "recursion " << recursion << std::endl;
-	// std::cout << "----------\nall" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < main_chain[i].size(); j++)
-	// 		std::cout << main_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-
-	// std::cout << "main chain" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// 	std::cout << main_chain[i][0] << " ";
-	// std::cout << std::endl;
-
 	if (main_chain.size() != 1)
 		result = merge_insertion_vector(main_chain, recursion + 1);
 	else
 	{
-		// std::cout << "recursion " << recursion << std::endl;
 		std::vector<std::vector<int> >::iterator it;
 		it = main_chain.begin();
 		std::vector<int>	tmp;
@@ -584,7 +420,6 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		it = main_chain.insert (it , tmp);
 		if (OddNumber[0] != -1)
 		{
-			// std::cout << "adding... " << OddNumber[0] << std::endl;
 			if (OddNumber[0] < main_chain[0][0])
 				main_chain.insert (it , OddNumber);
 			else if (OddNumber[0] < main_chain[1][0])
@@ -593,34 +428,11 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 				main_chain.push_back(OddNumber);
 
 		}
-		// std::cout << "tmp = " ;
-		// for (size_t i = 0; i < tmp.size(); i++)
-		// 	std::cout << tmp[i] << " ";
-		// std::cout << std::endl;
 		return main_chain;
 	}
-	// std::cout << "recursion " << recursion << std::endl;
-	// std::cout << "----------\nresult" << std::endl;
-	// for (size_t i = 0; i < result.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < result[i].size(); j++)
-	// 		std::cout << result[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
 
-	// std::cout << "recursion " << recursion << std::endl;
 	pend = create_pend_vector(result, main_chain, OddNumber);
 	regenerate_result_vector(result, main_chain);
-	// std::cout << "----------\npend" << std::endl;
-	// for (size_t i = 0; i < pend.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < pend[i].size(); j++)
-	// 		std::cout << pend[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
-
-	//make the binary search and insert
-	// if (recursion == 1)
 	binary_insertion_vector(pend, result);
 
 	return result;
@@ -632,9 +444,7 @@ void	PmergeMe::sort_vector()
 	std::vector<std::vector<int> >	result;
 	std::vector<int>				tmp;
 
-    // Start measuring time
-    clock_t start = clock();
-
+	clock_t start = clock();
 
 	std::cout << RED << "unsorted vector = ";
 	for (size_t i = 0; i < numbers.size(); i++)
@@ -645,25 +455,14 @@ void	PmergeMe::sort_vector()
 		tmp.clear();
 	}
 	std::cout << RESET << std::endl;
-	// std::cout << "first chain" << std::endl;
-	// for (size_t i = 0; i < first_chain.size(); i++)
-	// 	std::cout << first_chain[i][0] << " ";
-	// std::cout << std::endl;
 	result = merge_insertion_vector(first_chain, 0);
-
-    // End measuring time
     clock_t end = clock();
-
 	std::cout << GREEN << "sorted vector   = ";
 	for (size_t i = 0; i < result.size(); i++)
 		std::cout << GREEN << result[i][0] << " ";
 	std::cout << RESET << std::endl;
-
-    // Calculate the elapsed time
-    double elapsed_time = double(end - start) / CLOCKS_PER_SEC;
-    // double elapsed_time = double(end - start) / CLOCKS_PER_SEC;
-
-    std::cout << BLUE << "Time needed by vector to sort: " << WHITE << elapsed_time << " seconds" << RESET << std::endl;
+	double elapsed_time = double(end - start) / CLOCKS_PER_SEC;
+	std::cout << BLUE << "Time needed by vector to sort: " << WHITE << elapsed_time << " seconds" << RESET << std::endl;
 
 }
 
