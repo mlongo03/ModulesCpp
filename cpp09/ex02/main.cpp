@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	try
 	{
 		algorithm.load_numbers(&argv[1]);
-		algorithm.sort_list();
+		algorithm.sort_deque();
 		algorithm.sort_vector();
 	}
 	catch(const std::exception& e)
