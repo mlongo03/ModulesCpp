@@ -2,7 +2,7 @@
 #define BitcoinExchange_HPP
 
 #include <map>
-#include <deque>
+#include <list>
 #include <iostream>
 
 class BitcoinExchange
@@ -11,8 +11,8 @@ class BitcoinExchange
 		std::string file_name;
 		std::string csv_file_name;
 		std::multimap<std::string, float> csv;
-		std::deque<std::string> unordered_exchange_values;
-		std::deque<std::string>	unordered_exchange_dates;
+		std::list<std::string> unordered_exchange_values;
+		std::list<std::string>	unordered_exchange_dates;
 		float	find_value(std::string date, float value);
 	public:
 		BitcoinExchange();
@@ -23,8 +23,8 @@ class BitcoinExchange
 		void								load_csv_file(std::string file);
 		void								print_exchange_output();
 		std::multimap<std::string, float>	get_csv() const;
-		std::deque<std::string>				get_unordered_dates() const;
-		std::deque<std::string>				get_unordered_values() const;
+		std::list<std::string>				get_unordered_dates() const;
+		std::list<std::string>				get_unordered_values() const;
 		std::string							get_file_exchange_name() const;
 		std::string							get_csv_name() const;
 	public:
