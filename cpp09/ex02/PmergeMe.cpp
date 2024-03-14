@@ -88,6 +88,7 @@ std::vector<std::vector<int> > create_pend(std::vector<std::vector<int> > chain,
 		tmp.push_back(old_chain[chain[i][1]][3]);
 		pend.push_back(tmp);
 	}
+	std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	if (OddNumber[0] != -1)
 		pend.push_back(OddNumber);
 
@@ -197,8 +198,8 @@ void	regenerate_result(std::vector<std::vector<int> > &result, std::vector<std::
 			if (j % 2 == 0 && main_chain[ex_pos][j] == 0)
 				break ;
 			result[i].push_back(main_chain[ex_pos][j]);
-			std::cout << "--------\ni = " << i << std::endl;
-			std::cout << result[i][j] << " = " << main_chain[ex_pos][j] << std::endl;
+			// std::cout << "--------\ni = " << i << std::endl;
+			// std::cout << result[i][j] << " = " << main_chain[ex_pos][j] << std::endl;
 		}
 	}
 	std::cout << "----------\nafter result" << std::endl;
@@ -223,6 +224,7 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		OddNumber = input_chain.back();
 		OddNumber[1] = input_chain.size() - 1;
 		input_chain.pop_back();
+		std::cout << "Odd number = " << OddNumber[0] << std::endl;
 	}
 
 	// in this for loop i create a vector containing vectors with first number the larger one of the pairs, second its position in the
@@ -258,14 +260,14 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		}
 	}
 
-	// std::cout << "recursion " << recursion << std::endl;
-	// std::cout << "----------\nall" << std::endl;
-	// for (size_t i = 0; i < main_chain.size(); i++)
-	// {
-	// 	for (size_t j = 0; j < main_chain[i].size(); j++)
-	// 		std::cout << main_chain[i][j] << " ";
-	// 	std::cout << std::endl;
-	// }
+	std::cout << "recursion " << recursion << std::endl;
+	std::cout << "----------\nall" << std::endl;
+	for (size_t i = 0; i < main_chain.size(); i++)
+	{
+		for (size_t j = 0; j < main_chain[i].size(); j++)
+			std::cout << main_chain[i][j] << " ";
+		std::cout << std::endl;
+	}
 
 	// std::cout << "main chain" << std::endl;
 	// for (size_t i = 0; i < main_chain.size(); i++)
@@ -276,12 +278,24 @@ std::vector<std::vector<int> > merge_insertion_vector(std::vector<std::vector<in
 		result = merge_insertion_vector(main_chain, recursion + 1);
 	else
 	{
+		std::cout << "recursion " << recursion << std::endl;
 		std::vector<std::vector<int> >::iterator it;
 		it = main_chain.begin();
 		std::vector<int>	tmp;
 		tmp.push_back(main_chain[0][main_chain[0].size() - 2]);
 		tmp.push_back(main_chain[0][main_chain[0].size() - 1]);
 		it = main_chain.insert (it , tmp);
+		if (OddNumber[0] != -1)
+		{
+			std::cout << "adding... " << OddNumber[0] << std::endl;
+			if (OddNumber[0] < main_chain[0][0])
+				main_chain.insert (it , OddNumber);
+			else if (OddNumber[0] < main_chain[1][0])
+				main_chain.insert (it + 1 , OddNumber);
+			else
+				main_chain.push_back(OddNumber);
+
+		}
 		// std::cout << "tmp = " ;
 		// for (size_t i = 0; i < tmp.size(); i++)
 		// 	std::cout << tmp[i] << " ";
@@ -320,6 +334,7 @@ void	PmergeMe::sort_vector()
 	std::vector<std::vector<int> >	first_chain;
 	std::vector<std::vector<int> >	result;
 	std::vector<int>				tmp;
+	// std::vector<int>				clean_result;
 
 	for (size_t i = 0; i < numbers.size(); i++)
 	{
